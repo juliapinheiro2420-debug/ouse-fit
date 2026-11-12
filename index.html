@@ -638,34 +638,7 @@
     // A cliente poderá trocar as fotos pelas miniaturas/setas e tocar em uma foto para ampliar.
     // Os seis produtos anteriores são mantidos; os novos usam estoque por cor e tamanho.
     // Produtos sem "image" mostram um espaço reservado até a foto ser adicionada.
-    const products = [
-      { id: 1, name: "Conjunto Shop", price: 170.00, colors: ["Vime", "Roxo"], sizes: ["G"], image: "imagens/conjshop.webp", gallery: ["imagens/conjshop1.webp"], stock: 3, category: "conjunto-short", description: "G → Veste do 40 ao 42" },
-      { id: 2, name: "Conjunto Ballet", price: 185.00, colors: ["verde"], sizes: [ ""], image: "imagens/conjuntoballet.webp", gallery: ["imagens/conjuntoballet1.webp"], stock: 2, category: "conjunto-calca", description: "" },
-      { id: 3, name: "Conjunto Shop", price: 170.00, colors: ["Rosa bebê"], sizes: [ "M"], image: "imagens/shopliz.webp", gallery: ["imagens/shopliz1.webp"], stock: 1, category: "conjunto-short", description: "" },
-      { id: 4, name: "conjunto active", price: 180.00, colors: [ "rosa"], sizes: [ "M"], image: "imagens/active.webp", gallery: ["imagens/rosa.webp"], stock: 1, category: "conjunto-calca", description: "" },
-      { id: 5, name: "Macacão Fitness", price: 185.00, colors: ["Azul Marinho"], sizes: [ "G"], image: "imagens/musemarinho.webp", gallery: ["imagens/musemarinho1.webp"], imageScale: 1.14, stock: 1, category: "macacoes", description: "" },
-      { id: 6, name: "Macaquito", price: 155.00, colors: ["verde"], sizes: ["G"], image: "imagens/ladyelite.webp", gallery: ["imagens/macaquitoverde.webp"], stock: 0, category: "conjunto-short", description: "macaquito" },
-      { id: 7, name: "Conjunto Full", price: 165.00, colors: ["Laranja"], sizes: ["GG"],image:"imagens/conjlaranja.webp", gallery:["imagens/vime.webp"], variants: [{ color: "Laranja", size: "GG", stock: 1 }], stock: 1, category: "conjuntos-short", description: "" },
-      { id: 8, name: "Conjunto Bali com punho", price: 195.00, colors: ["Verde", "Rosa"], sizes: ["G", "M"], image:"imagens/baliverde.webp", gallery:["imagens/balirosa.webp"] ,variants: [{ color: "Verde", size: "G", stock: 1 }, { color: "Rosa", size: "M", stock: 1 }, { color: "Rosa", size: "G", stock: 1 }], stock: 3, category: "conjuntos-short", description: "Com punho" },
-      { id: 9, name: "Conjunto Ballet", price: 185.00, colors: ["Laranja"], sizes: ["M"], image:"imagens/ballet.webp", gallery: ["imagens/ballet1.webp"], variants: [{ color: "Laranja", size: "M", stock: 1 }], stock: 1, category: "conjunto-calca", description: "" },
-      { id: 10, name: "Conjunto de short e top", price: 160.00, colors: [ "roxo"], image:"imagens/frontmarinho.webp", gallery:["imagens/conjroxo.webp"],  sizes: ["G", "M"], variants: [{ color: "azul marinho", size: "G", stock: 0 }, { color: "roxo", size: "M", stock: 1 },], stock: 1, category: "conjunto-short", description: "Short e top" },
-      { id: 11, name: "Conjunto Gloss", price: 175.00, colors: ["Preto"], sizes: ["M"], image:"imagens/glosspreto.webp",gallery: ["imagens/glosspreto1.webp"] , variants: [{ color: "Preto", size: "M", stock: 1 }], stock: 1, category: "conjunto-calca", description: "" },
-      { id: 12, name: "Macaquito", price: 150.00, colors: ["Azul bebê"], sizes: ["G"], image:"imagens/azul.webp", gallery:["imagens/conjazulbebe.webp"], variants: [{ color: "Azul bebê", size: "G", stock: 1 }], stock: 1, category: "macaquinhos", description: "" },
-      { id: 13, name: "Conjunto de short e top", price: 90.00, colors: ["Azul petróleo"], image:"imagens/conjazul.webp", sizes: ["G", "M"], variants: [{ color: "Azul petróleo", size: "G", stock: 1 }, { color: "Cinza", size: "M", stock: 1 }, { color: "Marrom", size: "G", stock: 1 }], stock: 3, category: "conjunto-short", description: "Short e top" },
-      { id: 14, name: "Jaqueta fitness com punho", price: 140.00, colors: ["Goiaba", "Chumbo", "Preto"],image:"imagens/jaquetag.webp", gallery: [""], sizes: ["G", "GG"], variants: [ { color: "chumbo", size: "GG", stock: 1 }, { color: "chumbo", size: "G", stock: 1 },{ color: "Goiaba", size: "G", stock: 1 }, { color: "preto", size: "GG", stock: 1 },], stock: 4, category: "blusas-croppeds", description: "Com punho" },
-      { id: 15, name: "Macaquito", price: 155.00, colors: ["Marrom"], sizes: ["G"], image:"imagens/marrom.webp", variants: [{ color: "Marrom", size: "G", stock: 1 }], stock: 1, category: "macaquinhos", description: "" },
-      { id: 16, name: "Regata", price: 80.00, colors: ["Azul marinho", "Preto"], sizes: ["M", "G"], image:"imagens/regatas.webp",  variants: [{ color: "Azul marinho", size: "M", stock: 1 }, { color: "Preto", size: "G", stock: 1 }], stock: 2, category: "blusas-croppeds", description: "" },
-      { id: 17, name: "Conjunto", price: 148.00, colors: ["Vermelho"], sizes: ["P"], image: "imagens/vermelho1.webp", gallery: ["imagens/vermelho.webp"], variants: [{ color: "Vermelho", size: "P", stock: 1 }], stock: 1, category: "conjunto-calva", description: "" },
-      { id: 18, name: "Conjunto Majesty", price: 155.00, colors: ["Preto"], sizes: ["G"], image:"imagens/pretog.webp" , variants: [{ color: "Preto", size: "G", stock: 1 }], stock: 1, category: "conjunto-short", description: "" },
-      { id: 19, name: "Legging com bolso", price: 130.00, colors: ["cinza"], sizes: ["G"], image:"imagens/legging.webp" , gallery: ["imagens/leggingcinza.webp"], variants: [{ color: "cinza", size: "G", stock: 1 }], stock: 1, category: "conjuntos", description: "" },
-      { id: 20, name: "Conjunto verde", price: 140.00, colors: ["verde militar"], sizes: ["P"], image:"imagens/conjverde.webp" , gallery: ["imagens/verde.webp"], variants: [{ color: "verde", size: "P", stock: 2 }], stock: 1, category: "conjuntos-short", description: "" },
-      { id: 21, name: "Conjunto Short", price: 90.00, colors: ["bege"], sizes: ["G"], image:"imagens/conjbege2.webp" , gallery: ["imagens/.conjbegejpeg"], variants: [{ color: "bege", size: "G", stock: 1 }], stock: 1, category: "conjunto-short", description: "" },
-      { id: 22, name: "Macacão bege", price: 85.00, colors: ["bege"], sizes: ["G"], image:"imagens/macacaobege.webp" , gallery: ["imagens/macacaobege1jpeg"], variants: [{ color: "bege", size: "G", stock: 1 }], stock: 1, category: "conjunto-short", description: "" },
-      { id: 23, name: "Conjunto de short e top", price: 90.00, colors: [ "Marrom"], image:"imagens/conjmarrom.webp", sizes: [], variants: [{ color: "marrom", size: "", stock: 0 },{ color: "Marrom", size: "", stock: 0 }], stock: 3, category: "conjunto-short", description: "Short e top" },
-      { id: 24, name: "Conjunto de short e top", price: 90.00, colors: [ "chumbo"], image:"imagens/conjcinza.webp", gallery:["imagens/conjchumbo.webp"],  sizes: ["0"], variants: [{ color: "chumbo", size: "G", stock: 0 },], stock: 0, category: "conjunto-short", description: "Short e top" },
-      { id: 25, name: "Colete Fitness", price: 60.00, colors: [ "verde"], image:"imagens/colete.webp",  sizes: ["M"], variants: [{ color: "verde", size: "M", stock: 1 },], stock: 1, category: "blusas-croppeds", description: "" },
-      { id: 26, name: "Jaqueta Fitness", price: 140.00, colors: ["pink"], image:"imagens/jaquetarosa.webp", sizes: ["M"], variants:[{ color: "pink", size: "P", stock: 1 }], stock: 1, category: "blusas-croppeds", description: "" }
-    ];
+    const products = [];
 
     const categoryLabels = {
       "conjuntos": "Conjuntos",
@@ -1221,7 +1194,7 @@
         return { product_id: item.id, color: item.color || "", size: item.size || "", qty: item.qty, name: item.name,
           variant: !!variant, total: Number(variant ? variant.stock : (products.find(p => p.id === item.id)?.stock || 0)) };
       });
-      const { data, error } = await sb.rpc("reservar", { items, p_nome: name, p_fone: phone });
+      const { data, error } = await sb.rpc("reservar_catalogo", { items, p_nome: name, p_fone: phone });
       if (error || !data?.ok) {
         if (win) win.close();
         await loadReservations();
@@ -1234,9 +1207,35 @@
     });
 
     // ===== PAINEL DA DONA: abra o site com ?admin no final do endereço =====
-    loadReservations();
-    setInterval(loadReservations, 20000);
-    document.addEventListener("visibilitychange", () => { if (!document.hidden) loadReservations(); });
+    async function loadCatalog() {
+      try {
+        const result = await sb.rpc("catalogo_publico");
+        if (result.error) throw result.error;
+        const rows = result.data || [];
+        const paths = [...new Set(rows.flatMap(p => [p.image, ...(p.gallery || [])]).filter(p => p && p.startsWith("storage:")))];
+        const resolved = {};
+        if (paths.length) {
+          const signed = await sb.storage.from("pecas-fotos").createSignedUrls(paths.map(p => p.slice(8)), 3600);
+          if (signed.error) throw signed.error;
+          signed.data.forEach((p, i) => resolved[paths[i]] = p.signedUrl);
+        }
+        const photo = p => p && p.startsWith("storage:") ? resolved[p] : p;
+        products.splice(0, products.length, ...rows.map(p => ({ ...p, image: photo(p.image), gallery: (p.gallery || []).map(photo) })));
+        for (let i = cart.length - 1; i >= 0; i--) {
+          const fresh = products.find(p => p.id === cart[i].id);
+          if (!fresh) cart.splice(i, 1); else Object.assign(cart[i], fresh);
+        }
+        if (detailProduct) {
+          const fresh = products.find(p => p.id === detailProduct.id);
+          if (!fresh) closeProductDetail(); else detailProduct = fresh;
+        }
+        renderCart();
+        await loadReservations();
+      } catch { showToast("Não foi possível atualizar a coleção. Tente novamente."); }
+    }
+    loadCatalog();
+    setInterval(loadCatalog, 20000);
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) loadCatalog(); });
     if (new URLSearchParams(location.search).has("admin")) {
       const panel = document.createElement("div");
       panel.style.cssText = "position:fixed;inset:0;z-index:99999;background:#fff;color:#222;overflow:auto;padding:20px;font-family:sans-serif";
@@ -1246,7 +1245,7 @@
         const { data, error } = await sb.rpc("admin_listar", { p_pin: pin });
         if (error) { sessionStorage.removeItem("ousefit_pin"); panel.innerHTML = "<h2>PIN incorreto</h2><p>Recarregue a página para tentar de novo.</p>"; return; }
         sessionStorage.setItem("ousefit_pin", pin);
-        panel.innerHTML = `<h2>Reservas (${data.length})</h2><p style="color:#666">Liberar = a peça volta para o estoque do site. Se a cliente comprou, diminua o estoque no código e depois libere.</p>` +
+        panel.innerHTML = `<h2>Reservas (${data.length})</h2><p style="color:#666">Liberar = a peça volta para o estoque do site. Se a cliente comprou, diminua o estoque no painel de peças e depois libere.</p>` +
           (data.length ? "" : "<p>Nenhuma reserva.</p>") +
           data.map(r => `<div style="border:1px solid #ddd;border-radius:10px;padding:12px;margin:10px 0">
             <b>${escapeHtml(r.product_name || "")}</b> — ${r.qty}x | ${escapeHtml(r.color)} | Tam. ${escapeHtml(r.size)}<br>
