@@ -479,7 +479,6 @@
         </div>
         <div class="category-filters" id="category-filters" role="group" aria-label="Filtrar por categoria">
           <button type="button" class="category-chip active" data-category="all" aria-pressed="true">Todas as peças</button>
-          <button type="button" class="category-chip" data-category="conjuntos" aria-pressed="false">Conjuntos</button>
           <button type="button" class="category-chip" data-category="conjunto-short" aria-pressed="false">Conjuntos de short</button>
           <button type="button" class="category-chip" data-category="conjunto-calca" aria-pressed="false">Conjuntos de calça</button>
           <button type="button" class="category-chip" data-category="tops" aria-pressed="false">Jaquetas</button>
@@ -487,6 +486,7 @@
           <button type="button" class="category-chip" data-category="macacoes" aria-pressed="false">Macacões</button>
           <button type="button" class="category-chip" data-category="blusas-croppeds" aria-pressed="false">Blusas e croppeds</button>
           <button type="button" class="category-chip" data-category="masculino" aria-pressed="false">Masculino</button>
+          <button type="button" class="category-chip" data-category="calcados" aria-pressed="false">Calçados</button>
         </div>
       </div>
       <p class="collection-count" id="collection-count" aria-live="polite"></p>
@@ -641,14 +641,14 @@
     const products = [];
 
     const categoryLabels = {
-      "conjuntos": "Conjuntos",
       "conjunto-short": "Conjuntos de short",
       "conjunto-calca": "Conjuntos de calça",
       "tops": "Tops",
       "macaquinhos": "Macaquinhos",
       "macacoes": "Macacões",
       "blusas-croppeds": "Blusas e croppeds",
-      "masculino": "Masculino"
+      "masculino": "Masculino",
+      "calcados": "Calçados"
     };
 
     // IMPORTANTE: substitua pelo número oficial da Ouse Fit, com código do Brasil (55),
@@ -1234,8 +1234,7 @@
       } catch { showToast("Não foi possível atualizar a coleção. Tente novamente."); }
     }
     loadCatalog();
-    setInterval(loadCatalog, 20000);
-    document.addEventListener("visibilitychange", () => { if (!document.hidden) loadCatalog(); });
+    setInterval(loadCatalog, 120000);
     if (new URLSearchParams(location.search).has("admin")) {
       const panel = document.createElement("div");
       panel.style.cssText = "position:fixed;inset:0;z-index:99999;background:#fff;color:#222;overflow:auto;padding:20px;font-family:sans-serif";
@@ -1245,17 +1244,22 @@
         const { data, error } = await sb.rpc("admin_listar", { p_pin: pin });
         if (error) { sessionStorage.removeItem("ousefit_pin"); panel.innerHTML = "<h2>PIN incorreto</h2><p>Recarregue a página para tentar de novo.</p>"; return; }
         sessionStorage.setItem("ousefit_pin", pin);
-        panel.innerHTML = `<h2>Reservas (${data.length})</h2><p style="color:#666">Liberar = a peça volta para o estoque do site. Se a cliente comprou, diminua o estoque no painel de peças e depois libere.</p>` +
+        panel.innerHTML = `<h2>Reservas (${data.length})</h2><p style="color:#666"><b>Liberar</b> = a cliente não comprou, a peça volta para o site. <b>Excluir (vendida)</b> = a cliente comprou, a reserva sai do painel e a peça sai do estoque.</p>` +
           (data.length ? "" : "<p>Nenhuma reserva.</p>") +
           data.map(r => `<div style="border:1px solid #ddd;border-radius:10px;padding:12px;margin:10px 0">
             <b>${escapeHtml(r.product_name || "")}</b> — ${r.qty}x | ${escapeHtml(r.color)} | Tam. ${escapeHtml(r.size)}<br>
             ${escapeHtml(r.customer_name || "")} · ${escapeHtml(r.customer_phone || "")}<br>
             <small>${new Date(r.created_at).toLocaleString("pt-BR")}</small><br>
-            <button data-id="${r.id}" style="margin-top:8px;padding:8px 14px;border-radius:8px;border:0;background:#c2185b;color:#fff">Liberar</button></div>`).join("") +
+            <button data-id="${r.id}" style="margin-top:8px;padding:8px 14px;border-radius:8px;border:0;background:#c2185b;color:#fff">Liberar</button> <button data-sold="${r.id}" style="margin-top:8px;padding:8px 14px;border-radius:8px;border:1px solid #222;background:#fff;color:#222">Excluir (vendida)</button></div>`).join("") +
           `<p><a href="${location.pathname}">Voltar ao site</a></p>`;
         panel.querySelectorAll("button[data-id]").forEach(b => b.onclick = async () => {
           if (!confirm("Liberar esta peça de volta para o estoque?")) return;
           await sb.rpc("admin_liberar", { p_pin: pin, p_id: b.dataset.id }); draw(); loadReservations();
+        });
+        panel.querySelectorAll("button[data-sold]").forEach(b => b.onclick = async () => {
+          if (!confirm("A cliente comprou? A reserva será excluída e a peça sairá do estoque.")) return;
+          const { error } = await sb.rpc("admin_vender", { p_pin: pin, p_id: b.dataset.sold });
+          if (error) alert("Não foi possível excluir."); draw(); loadReservations();
         });
       }
       draw();
